@@ -12,7 +12,7 @@ using data.context;
 namespace data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220512113327_Init")]
+    [Migration("20220525123846_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,11 +85,12 @@ namespace data.Migrations
                     b.Property<Guid>("Project_Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("User_Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -121,6 +122,9 @@ namespace data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Max_Users")
                         .HasColumnType("int");
 
@@ -132,8 +136,9 @@ namespace data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("User_Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -150,32 +155,26 @@ namespace data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("Project_Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("User_Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("Project_Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Project_User");
                 });
 
             modelBuilder.Entity("data.models.entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("Education_Id")
                         .HasColumnType("uniqueidentifier");
@@ -195,15 +194,33 @@ namespace data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Profile_Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Education_Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("data.models.entities.UserCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Category_Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Category_Id");
+
+                    b.HasIndex("User_Id");
+
+                    b.ToTable("UserCategories");
                 });
 
             modelBuilder.Entity("data.models.entities.Invitation", b =>
@@ -234,13 +251,21 @@ namespace data.Migrations
 
             modelBuilder.Entity("data.models.entities.Project_User", b =>
                 {
-                    b.HasOne("data.models.entities.Project", null)
+                    b.HasOne("data.models.entities.Project", "Project")
                         .WithMany("Project_Users")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("Project_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("data.models.entities.User", null)
+                    b.HasOne("data.models.entities.User", "User")
                         .WithMany("Joined_Projects")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("data.models.entities.User", b =>
@@ -254,9 +279,30 @@ namespace data.Migrations
                     b.Navigation("Education");
                 });
 
+            modelBuilder.Entity("data.models.entities.UserCategory", b =>
+                {
+                    b.HasOne("data.models.entities.Category", "Category")
+                        .WithMany("UserCategory")
+                        .HasForeignKey("Category_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("data.models.entities.User", "User")
+                        .WithMany("Interests")
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("data.models.entities.Category", b =>
                 {
                     b.Navigation("Projects");
+
+                    b.Navigation("UserCategory");
                 });
 
             modelBuilder.Entity("data.models.entities.Education", b =>
@@ -272,6 +318,8 @@ namespace data.Migrations
             modelBuilder.Entity("data.models.entities.User", b =>
                 {
                     b.Navigation("Created_Projects");
+
+                    b.Navigation("Interests");
 
                     b.Navigation("Invitations");
 

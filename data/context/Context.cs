@@ -39,10 +39,12 @@ namespace data.context
         public DbSet<Education> Educations { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Project_User> Project_User { get; set; }
+       
 
         public DbSet<Project> Project { get; set; }
-
+        public DbSet<UserCategory> UserCategories { get; set; }
+        public DbSet<Project_User> Project_User { get; set; }
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,6 +64,8 @@ namespace data.context
 
             //Relation between models
 
+
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Invitations)
                 .WithOne();
@@ -74,12 +78,32 @@ namespace data.context
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Joined_Projects)
-                .WithOne();
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.User_Id)
+                ;
+            modelBuilder.Entity<UserCategory>()
+              .HasOne(c => c.Category)
+              .WithMany(c => c.UserCategory)
+              .HasForeignKey(c => c.Category_Id)
+               .OnDelete(DeleteBehavior.Restrict);
+            ;
+            modelBuilder.Entity<Project_User>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Joined_Projects)
+                .HasForeignKey(p => p.User_Id)
+                 .OnDelete(DeleteBehavior.Restrict);
+            ;
+
+            modelBuilder.Entity<UserCategory>()
+                .HasOne(u => u.User)
+                .WithMany(u => u.Interests)
+                .HasForeignKey(u => u.User_Id).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Project>()
                 .HasOne(p=> p.User)
                 .WithMany(u => u.Created_Projects)
                 .HasForeignKey(p => p.User_Id);
+
 
             modelBuilder.Entity<Project>()
                 .HasOne(p=> p.Category)
@@ -87,9 +111,14 @@ namespace data.context
                 .HasForeignKey(p => p.Category_Id);
 
 
-            modelBuilder.Entity<Project>()
-                .HasMany(p => p.Project_Users)
-                .WithOne();
+            modelBuilder.Entity<Project_User>()
+                .HasOne(p => p.Project)
+                .WithMany(p => p.Project_Users)
+                .HasForeignKey(p => p.Project_Id)
+                .OnDelete(DeleteBehavior.Restrict);
+                ;
+
+         
             
         }
     }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="models\viewModels\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

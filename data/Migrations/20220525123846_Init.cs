@@ -39,12 +39,11 @@ namespace data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Education_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Profile_Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -66,8 +65,8 @@ namespace data.Migrations
                     From = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Project_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,13 +83,14 @@ namespace data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Max_Users = table.Column<int>(type: "int", nullable: false),
                     Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Image_Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -112,28 +112,53 @@ namespace data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserCategories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCategories_Categories_Category_Id",
+                        column: x => x.Category_Id,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserCategories_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project_User",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Project_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_User_Project_ProjectId",
-                        column: x => x.ProjectId,
+                        name: "FK_Project_User_Project_Project_Id",
+                        column: x => x.Project_Id,
                         principalTable: "Project",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Project_User_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Project_User_Users_User_Id",
+                        column: x => x.User_Id,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -164,14 +189,24 @@ namespace data.Migrations
                 column: "User_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_User_ProjectId",
+                name: "IX_Project_User_Project_Id",
                 table: "Project_User",
-                column: "ProjectId");
+                column: "Project_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_User_UserId",
+                name: "IX_Project_User_User_Id",
                 table: "Project_User",
-                column: "UserId");
+                column: "User_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCategories_Category_Id",
+                table: "UserCategories",
+                column: "Category_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCategories_User_Id",
+                table: "UserCategories",
+                column: "User_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Education_Id",
@@ -186,6 +221,9 @@ namespace data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Project_User");
+
+            migrationBuilder.DropTable(
+                name: "UserCategories");
 
             migrationBuilder.DropTable(
                 name: "Project");

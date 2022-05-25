@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace data.models.entities
 {
-    public class Education
+    public class UserCategory
     {
+
         [Key]
         public Guid Id { get; set; }
+        public string User_Id{ get; set; }
 
-        public string Name { get; set; }
+        public Guid Category_Id { get; set; }
 
-        public string Department_Address { get; set; }
+        public Category Category { get; set; }
 
-
-        public ICollection<User>? Users { get; set; }
+        public User User { get; set; }
     }
 }

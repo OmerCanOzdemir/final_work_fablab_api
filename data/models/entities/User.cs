@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ namespace data.models.entities
 {
     public class User
     {
-        public Guid Id { get; set; }
+        [Key]
+        public string Id { get; set; }
 
         public string Firstname { get; set; }
 
@@ -20,12 +22,11 @@ namespace data.models.entities
 
         public Education Education { get; set; }
 
-        public string Profile_Image { get; set; }
         public bool IsAdmin { get; set; }
         public ICollection<Project_User> Joined_Projects { get; set; }
         public ICollection<Project> Created_Projects { get; set; }
         public ICollection<Invitation> Invitations { get; set; }
-    }
 
- 
+        public ICollection<UserCategory> Interests { get; set; }
+    }
 }
