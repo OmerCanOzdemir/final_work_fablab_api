@@ -20,13 +20,14 @@ namespace data.models.entities
 
         public Guid Education_Id { get; set; }
 
-        public Education Education { get; set; }
+        public Education? Education { get; set; }
 
         public bool IsAdmin { get; set; }
-        public ICollection<Project_User> Joined_Projects { get; set; }
-        public ICollection<Project> Created_Projects { get; set; }
-        public ICollection<Invitation> Invitations { get; set; }
+        public ICollection<Project_User>? Joined_Projects { get; set; }
+        public ICollection<Project>? Created_Projects { get; set; }
+        public ICollection<Invitation>? Invitations { get; set; }
 
-        public ICollection<UserCategory> Interests { get; set; }
+        public ICollection<UserCategory>? Interests { get; set; }
+        public DateTime? User_Created_Time { get; set; }
     }
 }

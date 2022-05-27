@@ -12,12 +12,12 @@ namespace data.models.entities
 
         [Key]
         public Guid Id { get; set; }
-        public string User_Id{ get; set; }
+        public string? User_Id{ get; set; }
 
         public Guid Category_Id { get; set; }
 
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

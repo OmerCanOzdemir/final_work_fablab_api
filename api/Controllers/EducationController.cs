@@ -24,15 +24,15 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<EducationViewModel> Create(Education category)
+        public ActionResult<EducationViewModel> Create(Education education)
         {
-            return _educationService.Create(category);
+            return _educationService.Create(education);
         }
         [HttpPut("{id}")]
-        public ActionResult<EducationViewModel> Update(Guid id, Education category)
+        public ActionResult<EducationViewModel> Update(Guid id, Education education)
         {
 
-            return _educationService.Update(id, category);
+            return _educationService.Update(id, education);
         }
 
         [HttpGet("{name}")]

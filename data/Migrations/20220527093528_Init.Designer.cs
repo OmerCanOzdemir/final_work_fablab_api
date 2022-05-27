@@ -12,7 +12,7 @@ using data.context;
 namespace data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220525123846_Init")]
+    [Migration("20220527093528_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -193,6 +193,9 @@ namespace data.Migrations
                     b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("User_Created_Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
