@@ -11,11 +11,11 @@ namespace business_logic.services.interfaces
     public interface IProjectService
     {
         ProjectViewModel GetProjects();
-        ProjectViewModel GetProjectById(string id);
-        ProjectViewModel Delete(string id);
+        ProjectViewModel GetProjectById(Guid id);
+        ProjectViewModel Delete(Guid id);
 
         ProjectViewModel Create(Project project);
 
-        ProjectViewModel Update(Project project,string id);
+        ProjectViewModel Update(Project project,Guid id);
     }
 }

@@ -30,6 +30,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectRepository,ProjectRepository>();
 
+builder.Services.AddScoped<IUserProjectRepository, UserProjectRepository>();
+builder.Services.AddScoped<IUserProjectService, UserProjectService>();
+
 //Add newtonsoft
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>

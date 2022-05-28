@@ -23,27 +23,55 @@ namespace business_logic.services
 
         public ProjectViewModel Create(Project project)
         {
-            throw new NotImplementedException();
+            project.Created_Date = DateTime.Now;
+            project.IsDeleted = false;
+            return _projectRepository.Create(project).Result;
         }
 
-        public ProjectViewModel Delete(string id)
+        public ProjectViewModel Delete(Guid id)
         {
-            throw new NotImplementedException();
+
+            var projectViewModel = _projectRepository.GetProjectById(id).Result;
+
+            if (projectViewModel.Project == null)
+            {
+                return projectViewModel;
+            }
+            var dbProject = projectViewModel.Project;
+
+            dbProject.IsDeleted = true;
+            return _projectRepository.Delete(dbProject).Result;
+
+
         }
 
-        public ProjectViewModel GetProjectById(string id)
+        public ProjectViewModel GetProjectById(Guid id)
         {
-            throw new NotImplementedException();
+            return _projectRepository.GetProjectById(id).Result;
         }
 
         public ProjectViewModel GetProjects()
         {
-            throw new NotImplementedException();
+            return _projectRepository.GetProjects().Result;
         }
 
-        public ProjectViewModel Update(Project project, string id)
+        public ProjectViewModel Update(Project project, Guid id)
         {
-            throw new NotImplementedException();
+            var projectViewModel = _projectRepository.GetProjectById(id).Result;
+
+            if (projectViewModel.Project == null)
+            {
+                return projectViewModel;
+            }
+            var dbProject = projectViewModel.Project;
+
+            dbProject.IsPublic = project.IsPublic;
+            dbProject.Description = project.Description;
+            dbProject.Title = project.Title;
+            dbProject.Summary = project.Summary;
+            dbProject.Category_Id = project.Category_Id;
+
+            return _projectRepository.Update(dbProject).Result;
         }
     }
 }

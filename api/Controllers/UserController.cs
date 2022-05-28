@@ -46,5 +46,9 @@ namespace api.Controllers
         {
             return _userService.GetUserById(id);
         }
+
+
+
+        
     }
 }

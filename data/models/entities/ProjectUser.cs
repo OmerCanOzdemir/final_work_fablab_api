@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace data.models.entities
 {
-    public class Project_User
+    public class ProjectUser
     {
         [Key]
         public Guid Id { get; set; }

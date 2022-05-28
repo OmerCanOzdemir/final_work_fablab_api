@@ -25,7 +25,7 @@ namespace data.models.entities
         public DateTime? Created_Date { get; set; }
 
         public bool IsDeleted { get; set; }
-        public ICollection<Project_User>? Project_Users { get; set; }
+        public ICollection<ProjectUser>? Project_Users { get; set; }
 
 
     }

@@ -23,7 +23,7 @@ namespace data.models.entities
         public Education? Education { get; set; }
 
         public bool IsAdmin { get; set; }
-        public ICollection<Project_User>? Joined_Projects { get; set; }
+        public ICollection<ProjectUser>? Joined_Projects { get; set; }
         public ICollection<Project>? Created_Projects { get; set; }
         public ICollection<Invitation>? Invitations { get; set; }
 

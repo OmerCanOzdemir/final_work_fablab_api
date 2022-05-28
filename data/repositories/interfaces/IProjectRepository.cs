@@ -11,8 +11,8 @@ namespace data.repositories.interfaces
     public interface IProjectRepository
     {
         Task<ProjectViewModel> GetProjects();
-        Task<ProjectViewModel> GetProjectById(string id);
-        Task<ProjectViewModel> Delete(string id);
+        Task<ProjectViewModel> GetProjectById(Guid id);
+        Task<ProjectViewModel> Delete(Project project);
 
         Task<ProjectViewModel> Create(Project project);
 

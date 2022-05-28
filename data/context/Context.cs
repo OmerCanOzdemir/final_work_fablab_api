@@ -43,7 +43,7 @@ namespace data.context
 
         public DbSet<Project> Project { get; set; }
         public DbSet<UserCategory> UserCategories { get; set; }
-        public DbSet<Project_User> Project_User { get; set; }
+        public DbSet<ProjectUser> Project_User { get; set; }
      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -87,7 +87,7 @@ namespace data.context
               .HasForeignKey(c => c.Category_Id)
                .OnDelete(DeleteBehavior.Restrict);
             ;
-            modelBuilder.Entity<Project_User>()
+            modelBuilder.Entity<ProjectUser>()
                 .HasOne(p => p.User)
                 .WithMany(p => p.Joined_Projects)
                 .HasForeignKey(p => p.User_Id)
@@ -111,7 +111,7 @@ namespace data.context
                 .HasForeignKey(p => p.Category_Id);
 
 
-            modelBuilder.Entity<Project_User>()
+            modelBuilder.Entity<ProjectUser>()
                 .HasOne(p => p.Project)
                 .WithMany(p => p.Project_Users)
                 .HasForeignKey(p => p.Project_Id)
