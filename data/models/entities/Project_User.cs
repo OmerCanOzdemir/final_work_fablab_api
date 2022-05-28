@@ -11,12 +11,12 @@ namespace data.models.entities
     {
         [Key]
         public Guid Id { get; set; }
-        public string User_Id { get; set; }
-        public Guid Project_Id { get; set; }
+        public string? User_Id { get; set; }
+        public Guid? Project_Id { get; set; }
 
-        public Project Project { get; set; }
+        public Project? Project { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
 
 
 

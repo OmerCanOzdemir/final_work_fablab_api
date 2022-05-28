@@ -18,7 +18,7 @@ namespace api.Controllers
 
 
         [HttpGet]
-        public ActionResult<UserViewModel> GetCategories()
+        public ActionResult<UserViewModel> GetUsers()
         {
             return _userService.GetUsers();
         }

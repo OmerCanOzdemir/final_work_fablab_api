@@ -60,7 +60,7 @@ namespace data.repositories
             {
                 try
                 {
-                    var user = await context.Users.FirstOrDefaultAsync(c => c.Id.Equals(id));
+                    var user = await context.Users.Include(u=> u.Interests).FirstOrDefaultAsync(c => c.Id.Equals(id));
 
                     if (user == null)
                     {
