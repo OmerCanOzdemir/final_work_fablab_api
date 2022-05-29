@@ -17,5 +17,9 @@ namespace business_logic.services.interfaces
         UserViewModel Create(User user);
 
         UserViewModel Update(User user,string id);
+
+        InvitationViewModel SendInvitation(Invitation invitation);
+
+        InvitationViewModel AcceptInvitation(Guid id);
     }
 }

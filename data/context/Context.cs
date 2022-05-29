@@ -68,7 +68,9 @@ namespace data.context
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Invitations)
-                .WithOne();
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.UserId);
+                
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Education)

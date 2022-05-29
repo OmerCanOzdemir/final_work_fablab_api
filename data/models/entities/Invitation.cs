@@ -14,10 +14,10 @@ namespace data.models.entities
 
         public string From { get; set; }
 
-        public Guid Project_Id { get; set; }
-        public string Project_Description { get; set; }
+        public Guid ProjectId { get; set; }
+        public string ProjectDescription { get; set; }
 
-        public string User_Id { get; set; }
-
+        public string UserId { get; set; }
+        public User? User { get; set; }
     }
 }

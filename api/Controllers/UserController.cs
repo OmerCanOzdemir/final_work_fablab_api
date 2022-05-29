@@ -46,9 +46,17 @@ namespace api.Controllers
         {
             return _userService.GetUserById(id);
         }
+        [HttpPost("invite")]
+        public ActionResult<InvitationViewModel> SendInvitation(Invitation invitation)
+        {
+            return _userService.SendInvitation(invitation);
+        }
 
-
-
+        [HttpPost("acceptInvitation/{id}")]
+        public ActionResult<InvitationViewModel> AcceptInvitation(Guid id)
+        {
+            return _userService.AcceptInvitation(id);
+        }
         
     }
 }

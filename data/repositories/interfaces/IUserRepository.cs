@@ -18,6 +18,9 @@ namespace data.repositories.interfaces
 
         Task<UserViewModel> Update(User user);
 
-       
+
+        Task<InvitationViewModel> SendInvitation(Invitation invitation);
+        Task<InvitationViewModel> AcceptInvitation(Invitation invitation);
+        Task<InvitationViewModel> GetInvitationById(Guid id);
     }
 }

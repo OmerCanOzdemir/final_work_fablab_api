@@ -14,6 +14,23 @@ namespace data.repositories
 {
     public class UserRepository : IUserRepository
     {
+        public async Task<InvitationViewModel> AcceptInvitation(Invitation invitation)
+        {
+            using (var context = new Context(Context.Option.Options))
+            {
+                try
+                {
+                    context.Invitations.Remove(invitation); 
+                    await context.SaveChangesAsync();
+                    return new InvitationViewModel(invitation, HttpStatusCode.OK, null);
+                }
+                catch (Exception ex)
+                {
+                    return new InvitationViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException.Message);
+                }
+            }
+        }
+
         public async  Task<UserViewModel> Create(User user)
         {
             using (var context = new Context(Context.Option.Options))
@@ -27,6 +44,27 @@ namespace data.repositories
                 catch (Exception ex)
                 {
                     return new UserViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
+                }
+            }
+        }
+
+        public async Task<InvitationViewModel> GetInvitationById(Guid id)
+        {
+            using (var context = new Context(Context.Option.Options))
+            {
+                try
+                {
+                    var invitation = await context.Invitations.FirstOrDefaultAsync(c => c.Id.Equals(id));
+
+                    if (invitation == null)
+                    {
+                        return new InvitationViewModel(null,HttpStatusCode.NotFound, null);
+                    }
+                    return new InvitationViewModel( invitation, HttpStatusCode.OK, null);
+                }
+                catch (Exception ex)
+                {
+                    return new InvitationViewModel(null,HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
             }
         }
@@ -60,7 +98,7 @@ namespace data.repositories
             {
                 try
                 {
-                    var user = await context.Users.Include(u=> u.Interests).Include(u=> u.Created_Projects).Include(u => u.Joined_Projects).ThenInclude(pu => pu.Project).FirstOrDefaultAsync(c => c.Id.Equals(id));
+                    var user = await context.Users.Include(u=> u.Interests).Include(u=> u.Created_Projects).Include(u => u.Invitations).Include(u => u.Joined_Projects).ThenInclude(pu => pu.Project).FirstOrDefaultAsync(c => c.Id.Equals(id));
 
                     if (user == null)
                     {
@@ -88,6 +126,25 @@ namespace data.repositories
                 catch (Exception ex)
                 {
                     return new UserViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
+                }
+            }
+        }
+
+        public async Task<InvitationViewModel> SendInvitation(Invitation invitation)
+        {
+            using (var context = new Context(Context.Option.Options))
+            {
+                try
+                {
+                    await context.Invitations.AddAsync(invitation);
+                    await context.SaveChangesAsync();
+                    return new InvitationViewModel(invitation, HttpStatusCode.OK, null);
+                }
+                catch (Exception ex)
+                {
+
+                    return new InvitationViewModel(null,HttpStatusCode.InternalServerError, ex.InnerException!.Message);
+                    
                 }
             }
         }

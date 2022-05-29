@@ -20,6 +20,19 @@ namespace business_logic.services
         {
             _userRepository = userRepository;
         }
+
+        public InvitationViewModel AcceptInvitation(Guid id)
+        {
+            var invitationViewModel = _userRepository.GetInvitationById(id).Result;
+
+            if (invitationViewModel.Invitation == null)
+            {
+                return invitationViewModel;
+            }
+            var dbInvitation = invitationViewModel.Invitation;
+            return _userRepository.AcceptInvitation(dbInvitation).Result;
+        }
+
         public UserViewModel Create(User user)
         {
            user.IsAdmin = false;
@@ -40,6 +53,11 @@ namespace business_logic.services
         public UserViewModel GetUsers()
         {
             return _userRepository.GetUsers().Result;
+        }
+
+        public InvitationViewModel SendInvitation(Invitation invitation)
+        {
+            return _userRepository.SendInvitation(invitation).Result;
         }
 
         public UserViewModel Update(User user, string id)

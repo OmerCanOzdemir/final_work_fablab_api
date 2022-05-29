@@ -40,12 +40,12 @@ namespace data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Education_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false),
-                    User_Created_Time = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    User_Created_Time = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,10 +64,9 @@ namespace data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     From = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Project_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProjectDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +75,8 @@ namespace data.Migrations
                         name: "FK_Invitations_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,15 +84,15 @@ namespace data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Max_Users = table.Column<int>(type: "int", nullable: false),
-                    Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Image_Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Max_Users = table.Column<int>(type: "int", nullable: true),
+                    Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Image_Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsPublic = table.Column<bool>(type: "bit", nullable: false),
-                    Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Created_Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -102,14 +102,12 @@ namespace data.Migrations
                         name: "FK_Project_Categories_Category_Id",
                         column: x => x.Category_Id,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Project_Users_User_Id",
                         column: x => x.User_Id,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +115,7 @@ namespace data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -142,8 +140,8 @@ namespace data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    User_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
