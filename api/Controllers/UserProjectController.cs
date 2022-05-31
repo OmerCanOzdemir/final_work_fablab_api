@@ -1,10 +1,12 @@
 ﻿using business_logic.services.interfaces;
 using data.models.viewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [Route("api/UserProject")]
+    [EnableCors("ReactApp")]
     [ApiController]
     public class UserProjectController : ControllerBase
     {

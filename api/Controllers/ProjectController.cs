@@ -1,11 +1,13 @@
 ﻿using business_logic.services.interfaces;
 using data.models.entities;
 using data.models.viewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [Route("api/Project")]
+    [EnableCors("ReactApp")]
     [ApiController]
     public class ProjectController : ControllerBase
     {

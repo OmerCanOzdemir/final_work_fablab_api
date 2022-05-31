@@ -120,7 +120,7 @@ namespace data.repositories
                 try
                 {
 
-                    var users = await context.Users.Include(u => u.Interests).ThenInclude(uc => uc.Category).ToListAsync();
+                    var users = await context.Users.Include(u => u.Interests).ThenInclude(uc => uc.Category).Include(u => u.Education).ToListAsync();
                     return new UserViewModel(users, HttpStatusCode.OK, null);
                 }
                 catch (Exception ex)
