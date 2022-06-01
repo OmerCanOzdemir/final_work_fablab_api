@@ -98,7 +98,7 @@ namespace data.repositories
             {
                 try
                 {
-                    var user = await context.Users.Include(u=> u.Interests).Include(u=> u.Created_Projects).Include(u => u.Invitations).Include(u => u.Joined_Projects).ThenInclude(pu => pu.Project).FirstOrDefaultAsync(c => c.Id.Equals(id));
+                    var user = await context.Users.Include(u => u.Education).Include(u=> u.Interests).ThenInclude(u => u.Category).Include(u=> u.Created_Projects).ThenInclude(p => p.Project_Users).Include(u => u.Invitations).Include(u => u.Joined_Projects).ThenInclude(pu => pu.Project).FirstOrDefaultAsync(c => c.Id.Equals(id));
 
                     if (user == null)
                     {
@@ -121,6 +121,8 @@ namespace data.repositories
                 {
 
                     var users = await context.Users.Include(u => u.Interests).ThenInclude(uc => uc.Category).Include(u => u.Education).ToListAsync();
+                    var test = users.Where(u => u.User_Created_Time.Value.Year.Equals(DateTime.Now.Year)).GroupBy(u=> u.User_Created_Time.Value.Month).OrderBy(g => g.Key).Select(g => Tuple.Create(g.Key,g.Count()));
+                    
                     return new UserViewModel(users, HttpStatusCode.OK, null);
                 }
                 catch (Exception ex)
