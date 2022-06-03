@@ -119,9 +119,9 @@ namespace data.repositories
             {
                 try
                 {
-
+           
                     var users = await context.Users.Include(u => u.Interests).ThenInclude(uc => uc.Category).Include(u => u.Education).ToListAsync();
-                    var test = users.Where(u => u.User_Created_Time.Value.Year.Equals(DateTime.Now.Year)).GroupBy(u=> u.User_Created_Time.Value.Month).OrderBy(g => g.Key).Select(g => Tuple.Create(g.Key,g.Count()));
+                    
                     
                     return new UserViewModel(users, HttpStatusCode.OK, null);
                 }

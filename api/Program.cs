@@ -33,6 +33,10 @@ builder.Services.AddScoped<IProjectRepository,ProjectRepository>();
 builder.Services.AddScoped<IUserProjectRepository, UserProjectRepository>();
 builder.Services.AddScoped<IUserProjectService, UserProjectService>();
 
+builder.Services.AddScoped<IStatisticsDataService, StatisticsDataService>();
+builder.Services.AddScoped<IStatisticsDataRepository, StatisticsDataRepository>();
+
+
 //Add newtonsoft
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
