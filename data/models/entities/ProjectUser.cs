@@ -18,6 +18,8 @@ namespace data.models.entities
 
         public User? User { get; set; }
 
+        public string? Rol { get; set; }
+        public int? Score { get; set; }
 
 
     }

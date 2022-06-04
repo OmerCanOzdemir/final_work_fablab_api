@@ -12,7 +12,7 @@ using data.context;
 namespace data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220529143511_Init")]
+    [Migration("20220604124621_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,12 +120,6 @@ namespace data.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Max_Users")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Summary")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -149,6 +143,12 @@ namespace data.Migrations
 
                     b.Property<Guid?>("Project_Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Rol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
 
                     b.Property<string>("User_Id")
                         .HasColumnType("nvarchar(450)");

@@ -86,9 +86,7 @@ namespace data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Max_Users = table.Column<int>(type: "int", nullable: true),
                     Category_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Image_Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsPublic = table.Column<bool>(type: "bit", nullable: false),
@@ -141,7 +139,9 @@ namespace data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     User_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Project_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Score = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -19,13 +19,27 @@ namespace business_logic.services
             _userProjectRepository = userProjectRepository;
         }
 
+        public UserProjectViewModel GiveScore(Guid id, int score)
+        {
+            var userProjectViewModel = _userProjectRepository.GetUserProjectById(id).Result;
+
+            if (userProjectViewModel.ProjectUser == null)
+            {
+                return userProjectViewModel;
+            }
+            var userProject = userProjectViewModel.ProjectUser;
+            userProject.Score = score;
+
+            return _userProjectRepository.GiveScore(userProject).Result;
+        }
+
         public UserProjectViewModel Participate(string userId, Guid projectId)
         {
 
             var userProject = new ProjectUser();
             userProject.User_Id = userId;
             userProject.Project_Id = projectId;
-
+            userProject.Rol = "Dev";
             return _userProjectRepository.ParticipateProject(userProject).Result;
         }
 

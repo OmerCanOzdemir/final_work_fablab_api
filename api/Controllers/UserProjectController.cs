@@ -1,4 +1,5 @@
 ﻿using business_logic.services.interfaces;
+using data.models.DTO;
 using data.models.viewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +29,12 @@ namespace api.Controllers
         {
             return _userProjectService.UnParticipate(id);
         }
+        [HttpPost("giveScore/{id}")]
+        public ActionResult<UserProjectViewModel> GiveScore(Guid id,ScoreDTO score)
+        {
+          
+            return _userProjectService.GiveScore(id,score.Score);
+        }
+
     }
 }

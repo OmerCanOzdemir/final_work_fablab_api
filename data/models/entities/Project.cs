@@ -14,10 +14,10 @@ namespace data.models.entities
         public string? User_Id { get; set; }
         public User? User { get; set; }
         public string? Title { get; set; }
-        public string? Summary { get; set; }
+
 
         public string? Description { get; set; }
-        public int? Max_Users { get; set; }
+      
         public Guid? Category_Id { get; set; }
         public Category? Category { get; set; }
         public string? Image_Url { get; set; }

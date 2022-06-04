@@ -36,6 +36,24 @@ namespace data.repositories
             }
         }
 
+        public async Task<UserProjectViewModel> GiveScore(ProjectUser projectUser)
+        {
+            using (var context = new Context(Context.Option.Options))
+            {
+                try
+                {
+
+                    context.Project_User.Update(projectUser);
+                    await context.SaveChangesAsync();
+                    return new UserProjectViewModel(projectUser, HttpStatusCode.OK, null);
+                }
+                catch (Exception ex)
+                {
+                    return new UserProjectViewModel(projectUser, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
+                }
+            }
+        }
+
         public async Task<UserProjectViewModel> ParticipateProject(ProjectUser userProject)
         {
             using (var context = new Context(Context.Option.Options))

@@ -11,5 +11,7 @@ namespace business_logic.services.interfaces
     {
         UserProjectViewModel Participate(string userId, Guid projectId);
         UserProjectViewModel UnParticipate(Guid id);
+        UserProjectViewModel GiveScore(Guid id,int score);
+
     }
 }

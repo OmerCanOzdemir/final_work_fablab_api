@@ -14,5 +14,7 @@ namespace data.repositories.interfaces
         Task<UserProjectViewModel> UnParticipate(ProjectUser userProject);
 
         Task<UserProjectViewModel> GetUserProjectById(Guid id);
+
+        Task<UserProjectViewModel> GiveScore(ProjectUser projectUser);
     }
 }
