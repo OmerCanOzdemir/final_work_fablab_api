@@ -59,6 +59,12 @@ namespace api.Controllers
         {
             return _userService.AcceptInvitation(id);
         }
+
+        [HttpGet]
+        public ActionResult<string> test()
+        {
+            return Ok("test");
+        }
         
     }
 }
