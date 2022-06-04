@@ -60,7 +60,7 @@ namespace api.Controllers
             return _userService.AcceptInvitation(id);
         }
 
-        [HttpGet("/test")]
+        [HttpGet("/test/test")]
         public ActionResult<string> test()
         {
             return Ok("test");
