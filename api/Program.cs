@@ -1,3 +1,4 @@
+using api.Middlewares;
 using business_logic.services;
 using business_logic.services.interfaces;
 using data.context;
@@ -66,11 +67,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
+//Using middleware only for controllers 
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder => appBuilder.UseMiddleware<AuthorisationMiddleware>());
 app.Run();
