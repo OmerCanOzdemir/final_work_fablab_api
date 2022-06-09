@@ -12,7 +12,7 @@ using data.context;
 namespace data.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220604124621_Init")]
+    [Migration("20220609193046_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,19 +31,45 @@ namespace data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("data.models.entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("data.models.entities.Education", b =>
@@ -53,17 +79,16 @@ namespace data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Department_Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Educations");
                 });
@@ -75,18 +100,18 @@ namespace data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("From")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("TitleProject")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -105,6 +130,9 @@ namespace data.Migrations
                     b.Property<Guid?>("Category_Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CoverDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Created_Date")
                         .HasColumnType("datetime2");
 
@@ -114,10 +142,10 @@ namespace data.Migrations
                     b.Property<string>("Image_Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPublic")
+                    b.Property<bool?>("IsPublic")
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
@@ -162,10 +190,46 @@ namespace data.Migrations
                     b.ToTable("Project_User");
                 });
 
+            modelBuilder.Entity("data.models.entities.Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tasks");
+                });
+
             modelBuilder.Entity("data.models.entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AboutMe")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Education_Id")
                         .HasColumnType("uniqueidentifier");
@@ -174,6 +238,9 @@ namespace data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAdmin")
@@ -213,13 +280,29 @@ namespace data.Migrations
                     b.ToTable("UserCategories");
                 });
 
+            modelBuilder.Entity("data.models.entities.Comment", b =>
+                {
+                    b.HasOne("data.models.entities.Project", "Project")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("data.models.entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("data.models.entities.Invitation", b =>
                 {
                     b.HasOne("data.models.entities.User", "User")
                         .WithMany("Invitations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -249,6 +332,23 @@ namespace data.Migrations
                     b.HasOne("data.models.entities.User", "User")
                         .WithMany("Joined_Projects")
                         .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("data.models.entities.Task", b =>
+                {
+                    b.HasOne("data.models.entities.Project", "Project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("data.models.entities.User", "User")
+                        .WithMany("Tasks")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Project");
@@ -299,7 +399,11 @@ namespace data.Migrations
 
             modelBuilder.Entity("data.models.entities.Project", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Project_Users");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("data.models.entities.User", b =>
@@ -311,6 +415,8 @@ namespace data.Migrations
                     b.Navigation("Invitations");
 
                     b.Navigation("Joined_Projects");
+
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }
