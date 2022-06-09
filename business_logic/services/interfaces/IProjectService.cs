@@ -17,5 +17,8 @@ namespace business_logic.services.interfaces
         ProjectViewModel Create(Project project);
 
         ProjectViewModel Update(Project project,Guid id);
+
+
+        CommentViewModel CreateComment(Guid id,Comment comment);
     }
 }

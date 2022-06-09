@@ -37,6 +37,9 @@ builder.Services.AddScoped<IUserProjectService, UserProjectService>();
 builder.Services.AddScoped<IStatisticsDataService, StatisticsDataService>();
 builder.Services.AddScoped<IStatisticsDataRepository, StatisticsDataRepository>();
 
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+
 
 //Add newtonsoft
 builder.Services.AddControllersWithViews()
@@ -53,7 +56,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost:3000").AllowAnyHeader()
+                          builder.WithOrigins("http://localhost:3000", "https://finalworkfrontend.azurewebsites.net").AllowAnyHeader()
                                 .AllowAnyMethod()
                                 ;
                       });
@@ -76,5 +79,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 //Using middleware only for controllers 
-app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder => appBuilder.UseMiddleware<AuthorisationMiddleware>());
+//app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder => appBuilder.UseMiddleware<AuthorisationMiddleware>());
 app.Run();

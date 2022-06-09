@@ -5,6 +5,7 @@ using data.repositories.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,19 @@ namespace business_logic.services
             project.Created_Date = DateTime.Now;
             project.IsDeleted = false;
             return _projectRepository.Create(project).Result;
+        }
+
+        public CommentViewModel CreateComment(Guid id, Comment comment)
+        {
+            var projectViewModel = _projectRepository.GetProjectById(id).Result;
+
+            if (projectViewModel.Project == null)
+            {
+                return new CommentViewModel(null, HttpStatusCode.NotFound,"Project not found");
+            }
+            comment.ProjectId = id;
+            comment.CreatedTime = DateTime.Now;
+            return _projectRepository.CreateComment(comment).Result;
         }
 
         public ProjectViewModel Delete(Guid id)

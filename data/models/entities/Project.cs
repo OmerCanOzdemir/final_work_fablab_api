@@ -17,16 +17,18 @@ namespace data.models.entities
 
 
         public string? Description { get; set; }
-      
+
+        public string? CoverDescription { get; set; }
         public Guid? Category_Id { get; set; }
         public Category? Category { get; set; }
         public string? Image_Url { get; set; }
-        public bool IsPublic { get; set; }
+        public bool? IsPublic { get; set; }
         public DateTime? Created_Date { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
         public ICollection<ProjectUser>? Project_Users { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
-
+        public ICollection<Task>? Tasks { get; set; }
     }
 }

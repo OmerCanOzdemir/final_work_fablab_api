@@ -12,12 +12,18 @@ using System.Threading.Tasks;
 
 namespace data.repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : BaseRepository,ICategoryRepository
     {
+
+        private readonly Context _context;
+        public CategoryRepository(Context context) : base(context)
+        {
+            _context = context;
+
+        }
         public async Task<CategoryViewModel> Create(Category category)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     
@@ -29,13 +35,13 @@ namespace data.repositories
                 {
                     return new CategoryViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<CategoryViewModel> GetAllCategories()
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
+            
                 try
                 {
 
@@ -47,15 +53,14 @@ namespace data.repositories
                 {
                     return new CategoryViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
 
         }
     
 
     public async Task<CategoryViewModel> GetCategoryById(Guid id)
     {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     var category = await context.Categories.FirstOrDefaultAsync(c => c.Id.Equals(id));
@@ -70,14 +75,13 @@ namespace data.repositories
                 {
                     return new CategoryViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
     
 
         public async Task<CategoryViewModel> GetCategoryByName(string name)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     var category = await context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(name));
@@ -94,13 +98,12 @@ namespace data.repositories
                     return new CategoryViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
 
-            }
+            
         }
 
         public async Task<CategoryViewModel> Update(Category category)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                   
@@ -112,7 +115,7 @@ namespace data.repositories
                 {
                     return new CategoryViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
     }
 }

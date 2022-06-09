@@ -45,6 +45,12 @@ namespace data.context
         public DbSet<UserCategory> UserCategories { get; set; }
         public DbSet<ProjectUser> Project_User { get; set; }
      
+        public DbSet<models.entities.Task> Tasks { get; set; }
+
+
+        public DbSet<Comment> Comments { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -120,8 +126,33 @@ namespace data.context
                 .OnDelete(DeleteBehavior.Restrict);
                 ;
 
-         
-            
+
+            modelBuilder.Entity<models.entities.Task>()
+                .HasOne(t => t.User)
+                .WithMany(t => t.Tasks)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<models.entities.Task>()
+                .HasOne(t => t.Project)
+                .WithMany(t => t.Tasks)
+                .HasForeignKey(t => t.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Project)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(c => c.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

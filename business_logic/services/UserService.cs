@@ -75,7 +75,7 @@ namespace business_logic.services
             dbUser.Lastname = user.Lastname;
             dbUser.Email = user.Email;
             dbUser.Interests = user.Interests;
-
+            dbUser.AboutMe = user.AboutMe;
             return _userRepository.Update(dbUser).Result;
 
         }

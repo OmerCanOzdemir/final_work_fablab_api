@@ -12,12 +12,17 @@ using System.Threading.Tasks;
 
 namespace data.repositories
 {
-    public class UserProjectRepository : IUserProjectRepository
+    public class UserProjectRepository : BaseRepository, IUserProjectRepository
     {
+        private readonly Context _context;
+        public UserProjectRepository(Context context) : base(context)
+        {
+            _context = context;
+
+        }
         public async Task<UserProjectViewModel> GetUserProjectById(Guid id)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     var userProject = await context.Project_User.FirstOrDefaultAsync(pu => pu.Id.Equals(id));
@@ -32,14 +37,13 @@ namespace data.repositories
                 catch (Exception ex)
                 {
                     return new UserProjectViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
-                }
-            }
+               }
+            
         }
 
         public async Task<UserProjectViewModel> GiveScore(ProjectUser projectUser)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
 
@@ -51,13 +55,12 @@ namespace data.repositories
                 {
                     return new UserProjectViewModel(projectUser, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<UserProjectViewModel> ParticipateProject(ProjectUser userProject)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
 
@@ -69,13 +72,12 @@ namespace data.repositories
                 {
                     return new UserProjectViewModel(userProject,HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<UserProjectViewModel> UnParticipate(ProjectUser userProject)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
 
@@ -87,7 +89,7 @@ namespace data.repositories
                 {
                     return new UserProjectViewModel(userProject, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
     }
 }

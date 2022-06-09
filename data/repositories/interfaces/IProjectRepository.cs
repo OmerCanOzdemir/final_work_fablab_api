@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace data.repositories.interfaces
 {
     public interface IProjectRepository
@@ -17,5 +18,14 @@ namespace data.repositories.interfaces
         Task<ProjectViewModel> Create(Project project);
 
         Task<ProjectViewModel> Update(Project project);
+
+
+        Task<CommentViewModel> CreateComment(Comment comment);
+
+     
+
+
+
+
     }
 }

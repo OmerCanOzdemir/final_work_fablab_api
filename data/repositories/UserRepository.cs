@@ -12,12 +12,17 @@ using System.Threading.Tasks;
 
 namespace data.repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
+        private readonly Context _context;
+        public UserRepository(Context context):base(context)
+        {
+            _context = context;
+
+        }
         public async Task<InvitationViewModel> AcceptInvitation(Invitation invitation)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     context.Invitations.Remove(invitation); 
@@ -28,13 +33,12 @@ namespace data.repositories
                 {
                     return new InvitationViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException.Message);
                 }
-            }
+            
         }
 
         public async  Task<UserViewModel> Create(User user)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     await context.Users.AddAsync(user);
@@ -45,13 +49,12 @@ namespace data.repositories
                 {
                     return new UserViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<InvitationViewModel> GetInvitationById(Guid id)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+          
                 try
                 {
                     var invitation = await context.Invitations.FirstOrDefaultAsync(c => c.Id.Equals(id));
@@ -66,13 +69,12 @@ namespace data.repositories
                 {
                     return new InvitationViewModel(null,HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<UserViewModel> GetUserByEmail(string email)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     var user = await context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
@@ -89,13 +91,12 @@ namespace data.repositories
                     return new UserViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
 
-            }
+            
         }
 
         public async  Task<UserViewModel> GetUserById(string id)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     var user = await context.Users.Include(u => u.Education).Include(u=> u.Interests).ThenInclude(u => u.Category).Include(u=> u.Created_Projects).ThenInclude(p => p.Project_Users).Include(u => u.Invitations).Include(u => u.Joined_Projects).ThenInclude(pu => pu.Project).FirstOrDefaultAsync(c => c.Id.Equals(id));
@@ -110,13 +111,12 @@ namespace data.repositories
                 {
                     return new UserViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<UserViewModel> GetUsers()
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
            
@@ -129,13 +129,12 @@ namespace data.repositories
                 {
                     return new UserViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<InvitationViewModel> SendInvitation(Invitation invitation)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
                     await context.Invitations.AddAsync(invitation);
@@ -148,13 +147,12 @@ namespace data.repositories
                     return new InvitationViewModel(null,HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                     
                 }
-            }
+            
         }
 
         public async Task<UserViewModel> Update(User user)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     context.Users.Update(user);
@@ -165,7 +163,7 @@ namespace data.repositories
                 {
                     return new UserViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
     }
 }

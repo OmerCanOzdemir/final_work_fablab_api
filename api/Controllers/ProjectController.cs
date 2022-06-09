@@ -49,7 +49,12 @@ namespace api.Controllers
 
             return _projectService.Delete(id);
         }
+        [HttpPost("putComment/{id}")]
 
+        public ActionResult<CommentViewModel> CreateComment(Guid id, Comment comment)
+        {
+            return _projectService.CreateComment(id,comment);
+        }
   
 
     }

@@ -12,9 +12,9 @@ namespace data.models.entities
         [Key]
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Department_Address { get; set; }
+        public string? Department_Address { get; set; }
 
 
         public ICollection<User>? Users { get; set; }

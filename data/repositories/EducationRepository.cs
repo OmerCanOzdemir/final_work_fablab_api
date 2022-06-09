@@ -12,12 +12,17 @@ using System.Threading.Tasks;
 
 namespace data.repositories
 {
-    public  class EducationRepository : IEducationRepository
+    public  class EducationRepository : BaseRepository, IEducationRepository
     {
+        private readonly Context _context;
+        public EducationRepository(Context context) : base(context)
+        {
+            _context = context;
+
+        }
         public async Task<EducationViewModel> Create(Education education)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+            
                 try
                 {
 
@@ -29,13 +34,12 @@ namespace data.repositories
                 {
                     return new EducationViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<EducationViewModel> GetAllEducations()
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
 
@@ -47,13 +51,12 @@ namespace data.repositories
                 {
                     return new EducationViewModel(null, HttpStatusCode.InternalServerError, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<EducationViewModel> GetEducationById(Guid id)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     var education = await context.Educations.FirstOrDefaultAsync(c => c.Id.Equals(id));
@@ -68,13 +71,12 @@ namespace data.repositories
                 {
                     return new EducationViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
 
         public async Task<EducationViewModel> GetEducationByName(string name)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
                     var education = await context.Educations.FirstOrDefaultAsync(c => c.Name.Equals(name));
@@ -91,13 +93,12 @@ namespace data.repositories
                     return new EducationViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
 
-            }
+            
         }
 
         public async Task<EducationViewModel> Update(Education education)
         {
-            using (var context = new Context(Context.Option.Options))
-            {
+           
                 try
                 {
 
@@ -109,7 +110,7 @@ namespace data.repositories
                 {
                     return new EducationViewModel(HttpStatusCode.InternalServerError, null, ex.InnerException!.Message);
                 }
-            }
+            
         }
     }
 }
