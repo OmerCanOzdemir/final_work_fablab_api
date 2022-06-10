@@ -14,7 +14,10 @@ namespace api.Controllers
 
         private readonly ITaskService _taskService;
 
-
+        public TaskController(ITaskService taskService)
+        {
+            _taskService = taskService;
+        }
 
         [HttpGet("{id}")]
         public ActionResult<TaskViewModel> GetTaskById(Guid id)
