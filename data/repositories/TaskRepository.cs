@@ -82,7 +82,7 @@ namespace data.repositories
         {
             try
             {
-                var task = await context.Tasks.Include(t => t.User).FirstOrDefaultAsync(x => x.Id == id);
+                var task = await context.Tasks.Include(t => t.User).Include(t => t.Project).FirstOrDefaultAsync(x => x.Id == id);
                 if (task == null)
                 {
                     return new TaskViewModel(null, HttpStatusCode.NotFound, null);
