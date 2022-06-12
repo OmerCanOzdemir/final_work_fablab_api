@@ -72,7 +72,7 @@ namespace data.repositories
             
                 try
                 {
-                var project = await context.Project.Include(u => u.User).Include(c => c.Category).Include(p => p.Project_Users).ThenInclude(u => u.User).ThenInclude(e => e.Education).Include(p => p.Tasks).Include(p => p.Comments).FirstOrDefaultAsync(c => c.Id.Equals(id));
+                var project = await context.Project.Include(u => u.User).Include(c => c.Category).Include(p => p.Project_Users).ThenInclude(u => u.User).ThenInclude(e => e.Education).Include(p => p.Tasks).Include(p => p.Comments).ThenInclude(c => c.User).FirstOrDefaultAsync(c => c.Id.Equals(id));
 
                     if (project == null)
                     {
