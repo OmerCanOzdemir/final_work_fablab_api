@@ -79,5 +79,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 //Using middleware only for controllers 
-//app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder => appBuilder.UseMiddleware<AuthorisationMiddleware>());
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder => appBuilder.UseMiddleware<AuthorisationMiddleware>());
 app.Run();
