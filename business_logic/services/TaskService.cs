@@ -106,6 +106,7 @@ namespace business_logic.services
 
             dbTask.Title = task.Title;
             dbTask.Description = task.Description;
+            dbTask.Status = task.Status.ToUpper();
 
             return _taskRepository.UpdateTask(dbTask).Result;
         }
