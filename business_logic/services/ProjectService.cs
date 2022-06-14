@@ -82,7 +82,7 @@ namespace business_logic.services
             dbProject.IsPublic = project.IsPublic;
             dbProject.Description = project.Description;
             dbProject.Title = project.Title;
-
+            dbProject.CoverDescription = project.CoverDescription;
             dbProject.Category_Id = project.Category_Id;
 
             return _projectRepository.Update(dbProject).Result;
