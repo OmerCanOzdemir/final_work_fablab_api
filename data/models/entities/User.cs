@@ -29,7 +29,7 @@ namespace data.models.entities
         public ICollection<ProjectUser>? Joined_Projects { get; set; }
         public ICollection<Project>? Created_Projects { get; set; }
         public ICollection<Invitation>? Invitations { get; set; }
-        public ICollection<Task>? Tasks { get; set; }
+        public ICollection<TaskModel>? Tasks { get; set; }
 
         public ICollection<UserCategory>? Interests { get; set; }
         public DateTime? User_Created_Time { get; set; }

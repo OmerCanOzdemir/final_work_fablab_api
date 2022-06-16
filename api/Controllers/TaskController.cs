@@ -2,7 +2,7 @@
 using data.models.viewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using TaskModel = data.models.entities.Task;
+using TaskModel = data.models.entities.TaskModel;
 
 namespace api.Controllers
 {

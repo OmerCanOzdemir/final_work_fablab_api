@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TaskModel = data.models.entities.Task;
+using TaskModel = data.models.entities.TaskModel;
 namespace data.repositories
 {
     public class TaskRepository : BaseRepository, ITaskRepository

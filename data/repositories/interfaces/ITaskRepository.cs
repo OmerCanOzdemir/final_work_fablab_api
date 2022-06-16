@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskModel = data.models.entities.Task;
+using TaskModel = data.models.entities.TaskModel;
 namespace data.repositories.interfaces
 {
     public interface ITaskRepository

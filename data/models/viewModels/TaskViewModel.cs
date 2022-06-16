@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Task = data.models.entities.Task;
+using TaskModel = data.models.entities.TaskModel;
 
 namespace data.models.viewModels
 {
@@ -16,14 +16,14 @@ namespace data.models.viewModels
 
         }
 
-        public TaskViewModel(Task task, HttpStatusCode statusCode, string? errorMessage)
+        public TaskViewModel(TaskModel task, HttpStatusCode statusCode, string? errorMessage)
         {
             Task = task;
             StatusCode = statusCode;
             ErrorMessage = errorMessage;
         }
 
-        public Task Task { get; set; }
+        public TaskModel Task { get; set; }
 
 
         public HttpStatusCode StatusCode { get; set; }

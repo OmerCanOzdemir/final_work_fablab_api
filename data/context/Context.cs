@@ -45,7 +45,7 @@ namespace data.context
         public DbSet<UserCategory> UserCategories { get; set; }
         public DbSet<ProjectUser> Project_User { get; set; }
      
-        public DbSet<models.entities.Task> Tasks { get; set; }
+        public DbSet<TaskModel> Tasks { get; set; }
 
 
         public DbSet<Comment> Comments { get; set; }
@@ -127,14 +127,14 @@ namespace data.context
                 ;
 
 
-            modelBuilder.Entity<models.entities.Task>()
+            modelBuilder.Entity<TaskModel>()
                 .HasOne(t => t.User)
                 .WithMany(t => t.Tasks)
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
-            modelBuilder.Entity<models.entities.Task>()
+            modelBuilder.Entity<TaskModel>()
                 .HasOne(t => t.Project)
                 .WithMany(t => t.Tasks)
                 .HasForeignKey(t => t.ProjectId)

@@ -29,6 +29,6 @@ namespace data.models.entities
         public ICollection<ProjectUser>? Project_Users { get; set; }
         public ICollection<Comment>? Comments { get; set; }
 
-        public ICollection<Task>? Tasks { get; set; }
+        public ICollection<TaskModel>? Tasks { get; set; }
     }
 }
