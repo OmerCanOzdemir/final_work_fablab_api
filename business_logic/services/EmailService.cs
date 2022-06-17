@@ -1,5 +1,6 @@
 ﻿using business_logic.services.interfaces;
 using data.models.entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,26 @@ namespace business_logic.services
 {
     public class EmailService : IEmailService
     {
+        private readonly IConfiguration _config;
+
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public bool SendEmail(EmailBody email)
         {
             try
             {
                 MailMessage mail = new MailMessage();
-                /*var cred_mail = _config.GetSection("Credentials")["Email"];
-                var cred_password = _config.GetSection("Credentials")["Password"];*/
-                var cred_mail = "omer";
-                var cred_password = "omer";
-                mail.To.Add("receiver");
+                var cred_mail = _config.GetSection("cred_email").Value;
+                var cred_password = _config.GetSection("cred_password").Value;
+              
+                mail.To.Add(email.Receiver);
                 mail.From = new MailAddress(cred_mail);
                 mail.ReplyToList.Add(cred_mail);
-                mail.Subject = "";
-                mail.Body = $"";
+                mail.Subject = email.Subject;
+                mail.Body = email.Body;
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
@@ -36,7 +43,7 @@ namespace business_logic.services
             }
             catch (Exception e)
             {
-
+                throw e;
                 return false;
             }
         }

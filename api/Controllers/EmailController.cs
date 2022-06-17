@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Controllers
 {
 
-    [Route("api/Category")]
+    [Route("api/Email")]
     [EnableCors("ReactApp")]
     [ApiController]
     public class EmailController: ControllerBase
@@ -19,7 +19,7 @@ namespace api.Controllers
             _emailService = emailService;
         }
 
-
+        [HttpPost]
         public ActionResult<bool> SendEmail(EmailBody email)
         {
             return _emailService.SendEmail(email);

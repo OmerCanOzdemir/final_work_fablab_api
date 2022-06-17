@@ -8,7 +8,7 @@ namespace data.models.entities
 {
     public class EmailBody
     {
-        public string? From { get; set; }
+        public string? Receiver { get; set; }
         public string? Body { get; set; }
 
         public string? Subject { get; set; }
