@@ -7,18 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ControllerTesting\" />
-    <Folder Include="ServiceTesting\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Moq" Version="4.18.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\api\api.csproj" />
+    <ProjectReference Include="..\business_logic\business_logic.csproj" />
     <ProjectReference Include="..\data\data.csproj" />
   </ItemGroup>
 
