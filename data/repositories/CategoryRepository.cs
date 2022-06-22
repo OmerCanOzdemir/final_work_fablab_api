@@ -84,7 +84,7 @@ namespace data.repositories
            
                 try
                 {
-                    var category = await context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(name));
+                    var category = await context.Categories.Include(p => p.Projects).FirstOrDefaultAsync(c => c.Name.Equals(name));
 
 
                     if (category == null)
