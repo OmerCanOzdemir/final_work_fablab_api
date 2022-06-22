@@ -93,7 +93,7 @@ namespace data.repositories
                 try
                 {
 
-                var projects = await context.Project.Include(c => c.Category).ToListAsync();
+                var projects = await context.Project.ToListAsync();
                     return new ProjectViewModel(projects, HttpStatusCode.OK, null);
                 }
                 catch (Exception ex)
